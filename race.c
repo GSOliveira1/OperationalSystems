@@ -29,8 +29,11 @@ int program_execution(){
         {
             fprintf(stderr, "Fail to create threads.\n");
             return 1;
+        } else {
+            printf("Thread %d created successfully!\n", ids_threads[i]);
         }
     }
+    printf("\n");
 
     for (i = 0; i < NUM_THREADS; i++)
     {
@@ -42,21 +45,23 @@ int program_execution(){
     return 0;
 }
 
-
-void* race(void* arg){
+void *race(void *arg)
+{
     int contador = 0;
-    int id = *(int*)arg;
+    int id = *(int *)arg;
 
-    for (int i = 0; i < REACH_LINE; i++){
-        if (contador < REACH_LINE){
-            usleep(rand() % 1000);
-            contador++;
-        }
+    for (int i = 0; i < REACH_LINE; i++)
+    {
+        usleep(rand() % 1000); // Simula o trabalho da thread
+        contador++;
 
-        if (contador >= REACH_LINE){
+        if (contador >= REACH_LINE)
+        {
             pthread_mutex_lock(&lock);
 
-            if (winner == -1){
+            // Verifica e define o vencedor se ainda não houver um
+            if (winner == -1)
+            {
                 winner = id;
                 end_time = clock();
                 printf("Thread number %d is the winner!\n", id);
@@ -66,7 +71,7 @@ void* race(void* arg){
             }
 
             pthread_mutex_unlock(&lock);
-            break;
+            break; // Interrompe o loop quando uma thread ganha
         }
     }
 
