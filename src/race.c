@@ -47,15 +47,15 @@ int program_execution(){
 
 void *race(void *arg)
 {
-    int contador = 0;
+    int progresso = 0;
     int id = *(int *)arg;
 
-    for (int i = 0; i < REACH_LINE; i++)
+    while (progresso < REACH_LINE)
     {
         usleep(rand() % 1000); // Simula o trabalho da thread
-        contador++;
+        progresso++;
 
-        if (contador >= REACH_LINE)
+        if (progresso >= REACH_LINE)
         {
             pthread_mutex_lock(&lock);
 
@@ -71,7 +71,7 @@ void *race(void *arg)
             }
 
             pthread_mutex_unlock(&lock);
-            break; // Interrompe o loop quando uma thread ganha
+            break;
         }
     }
 
