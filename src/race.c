@@ -13,8 +13,7 @@ int program_execution(){
     pthread_t threads[NUM_THREADS]; /* Threads array */
     int ids_threads[NUM_THREADS];
 
-    if (pthread_mutex_init(&lock, NULL))
-    {
+    if (pthread_mutex_init(&lock, NULL)){
         fprintf(stderr, "Error initializing mutex.\n");
         return 1;
     }
@@ -22,11 +21,9 @@ int program_execution(){
     start_time = clock();
 
     int i;
-    for (i = 0; i < NUM_THREADS; i++)
-    {
+    for (i = 0; i < NUM_THREADS; i++){
         ids_threads[i] = i + 1;
-        if (pthread_create(&threads[i], NULL, race, (void *)&ids_threads[i]) != 0)
-        {
+        if (pthread_create(&threads[i], NULL, race, (void *)&ids_threads[i]) != 0){
             fprintf(stderr, "Fail to create threads.\n");
             return 1;
         } else {
@@ -35,8 +32,7 @@ int program_execution(){
     }
     printf("\n");
 
-    for (i = 0; i < NUM_THREADS; i++)
-    {
+    for (i = 0; i < NUM_THREADS; i++){
         pthread_join(threads[i], NULL);
     }
 
@@ -45,26 +41,22 @@ int program_execution(){
     return 0;
 }
 
-void *race(void *arg)
-{
+void *race(void *arg){
     int progresso = 0;
     int id = *(int *)arg;
 
-    while (progresso < REACH_LINE)
-    {
+    while (progresso < REACH_LINE){
         usleep(rand() % 1000); // Simula o trabalho da thread
         progresso++;
 
-        if (progresso >= REACH_LINE)
-        {
+        if (progresso >= REACH_LINE){
             pthread_mutex_lock(&lock);
 
             // Verifica e define o vencedor se ainda não houver um
-            if (winner == -1)
-            {
+            if (winner == -1){
                 winner = id;
                 end_time = clock();
-                printf("Thread number %d is the winner!\n", id);
+                printf("\nThread number %d is the winner!\n", id);
 
                 double time_taken = ((double)(end_time - start_time)) / CLOCKS_PER_SEC;
                 printf("Thread %d execution time: %.6f seconds\n", id, time_taken);
