@@ -1,26 +1,26 @@
-# Nome do Executável:
-TARGET = race
-
-#Compilador e Flags:
 CC = gcc
-CFLAGS = -Wall -pthread
+CFLAGS = -Wall -g -pthread
+OBJDIR = obj
+SRCDIR = src
+BINDIR = bin
 
-# Arquivos-fonte e objeto
-SRCS = main.c race.c
-OBJS = $(SRCS:.c=.o)
+TARGET = $(BINDIR)/race_program
 
-# Regra para compilar o executável
+SRCS = $(SRCDIR)/main.c $(SRCDIR)/race.c
+OBJS = $(patsubst $(SRCDIR)/%.c, $(OBJDIR)/%.o, $(SRCS))
+
+all: $(TARGET)
+
 $(TARGET): $(OBJS)
-	$(CC) $(CFLAGS) -o $(TARGET) $(OBJS)
+	@mkdir -p $(BINDIR)
+	$(CC) $(CFLAGS) -o $@ $^
 
-# Regra para compilar arquivos .o a partir de .c
-%.o: %.c
+$(OBJDIR)/%.o: $(SRCDIR)/%.c
+	@mkdir -p $(OBJDIR)
 	$(CC) $(CFLAGS) -c $< -o $@
 
-# Limpa os arquivos de objeto e o executável
 clean:
-	rm -f $(OBJS) $(TARGET)
+	rm -rf $(OBJDIR) $(BINDIR)
 
-# Executa o programa
-run: $(TARGET)
+run: all
 	./$(TARGET)
