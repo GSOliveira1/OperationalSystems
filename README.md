@@ -1,6 +1,5 @@
 # OperationalSystems
-Corrida de Threads
-Esse trabalho consiste no desenvolvimento de uma simulação de corrida de threads em C, a fim de aprofundar os conhecimentos na disciplina.
+Corrida de Threads: esse trabalho consiste no desenvolvimento de uma simulação de corrida de threads em C, a fim de aprofundar os conhecimentos na disciplina.
 
 Instruções de compilação:
 - make -> para compilar
