@@ -46,10 +46,14 @@ void *player(void *arg){
     int id = *(int *)arg;
 
     while (score < POINTS_TO_WIN){
+        if (winner != -1)
+            break;
+
+        usleep(50000);
         usleep(rand() % 5000);  // Simula o tempo para marcar os pontos;
         int points_scored =  (rand() % 3) + 1;  // Marca entre 1 e 3 pontos;
         score += points_scored;
-        printf("Player %d scored %d points!\n", id, score);
+        printf("Player %d scored %d points in total!\n", id, score);
 
         if (score > POINTS_TO_WIN)
             score = POINTS_TO_WIN;
