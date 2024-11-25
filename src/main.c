@@ -1,6 +1,6 @@
 #include "race.h"
 
 int main(){
-    program_execution();
+    game_simulation();
     return 0;
 }
